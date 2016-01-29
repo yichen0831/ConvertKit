@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ychstudio.gui.ConvertKitController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <StackPane>
+         <children>
+            <TabPane tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="轉換文字檔">
+                  <content>
+                    <AnchorPane>
+                           <children>
+                              <VBox layoutX="12.0" layoutY="12.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                       <children>
+                                          <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseFile" text="選擇檔案" />
+                                          <Label fx:id="selectedFileLabel" text="未選擇檔案" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox spacing="6.0">
+                                       <children>
+                                          <Label text="來源編碼" />
+                                          <RadioButton fx:id="gbkRadioButton" mnemonicParsing="false" text="GBK">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="encodingGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="big5RadioButton" mnemonicParsing="false" text="Big5" toggleGroup="$encodingGroup" />
+                                          <RadioButton fx:id="utf8RadioButton" mnemonicParsing="false" text="UTF-8" toggleGroup="$encodingGroup" />
+                                          <ComboBox fx:id="encodingComboBox" prefWidth="150.0" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                                       </padding>
+                                    </HBox>
+                                    <AnchorPane VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <SplitPane dividerPositions="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <items>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                   <children>
+                                                      <TextArea fx:id="inputTextArea" layoutX="45.0" layoutY="29.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                              <AnchorPane minHeight="360.0">
+                                                   <children>
+                                                      <TextArea fx:id="outputTextArea" layoutX="38.0" layoutY="39.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                            </items>
+                                          </SplitPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+                           </padding>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="轉換檔名">
+                  <content>
+                    <AnchorPane />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </StackPane>
+  </children>
+</VBox>

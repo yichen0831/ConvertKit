@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = 'com.ychstudio.ConvertKit'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+    testCompile 'junit:junit:4.+'
+}
+
+jar {
+    baseName = 'ConvertKit'
+    version = '0.1'
+
+    manifest {
+        attributes 'Main-Class': 'com.ychstudio.ConvertKit'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+}
