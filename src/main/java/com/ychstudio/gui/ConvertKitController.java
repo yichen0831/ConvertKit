@@ -42,21 +42,47 @@ public class ConvertKitController implements Initializable {
     @FXML
     TextArea outputTextArea;
 
+    private Optional<File> selectedFile = Optional.empty();
+    private String prevEncoding;
+
     EventHandler<ActionEvent> changeSourceEncodingHandler = event -> {
         if (event.getSource() == gbkRadioButton) {
-            System.out.println("change to GBK");
+            encodingComboBox.setValue("GBK");
         }
         else if (event.getSource() == big5RadioButton) {
-            System.out.println("change to Big5");
+            encodingComboBox.setValue("Big5");
         }
         else if (event.getSource() == utf8RadioButton) {
-            System.out.println("change to UTF-8");
+            encodingComboBox.setValue("UTF-8");
         }
         else if (event.getSource() == encodingComboBox) {
-            System.out.println("change to " + encodingComboBox.getValue());
+            switch (encodingComboBox.getValue()) {
+                case "GBK":
+                    gbkRadioButton.setSelected(true);
+                    break;
+                case "Big5":
+                    big5RadioButton.setSelected(true);
+                    break;
+                case "UTF-8":
+                    utf8RadioButton.setSelected(true);
+                    break;
+                default:
+                    gbkRadioButton.setSelected(false);
+                    big5RadioButton.setSelected(false);
+                    utf8RadioButton.setSelected(false);
+                    break;
+            }
+            changeInputEncoding(encodingComboBox.getValue());
+            prevEncoding = encodingComboBox.getValue();
         }
 
     };
+
+    public void changeInputEncoding(String encoding) {
+        if (selectedFile.isPresent()) {
+            loadFileWithEncoding(selectedFile.get(), encoding);
+        }
+    }
 
     public String detectFileEncoding(File file) {
         UniversalDetector universalDetector = new UniversalDetector(null);
@@ -99,7 +125,7 @@ public class ConvertKitController implements Initializable {
     public void chooseFile() {
 
         FileChooser fileChooser = new FileChooser();
-        Optional<File> selectedFile = Optional.ofNullable(fileChooser.showOpenDialog(null));
+        selectedFile = Optional.ofNullable(fileChooser.showOpenDialog(null));
         if (selectedFile.isPresent()) {
             File file = selectedFile.get();
             selectedFileLabel.setText(file.getName());
@@ -122,6 +148,7 @@ public class ConvertKitController implements Initializable {
                     utf8RadioButton.setSelected(false);
                     break;
             }
+            prevEncoding = encoding;
             encodingComboBox.setValue(encoding);
 
             loadFileWithEncoding(file, encoding);
