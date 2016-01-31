@@ -11,11 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
+import opencc.OpenCC;
 import org.mozilla.universalchardet.UniversalDetector;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,13 +39,16 @@ public class ConvertKitController implements Initializable {
     ComboBox<String> encodingComboBox;
 
     @FXML
+    ComboBox<String> conversionComboBox;
+
+    @FXML
     TextArea inputTextArea;
 
     @FXML
     TextArea outputTextArea;
 
     private Optional<File> selectedFile = Optional.empty();
-    private String prevEncoding;
+    private OpenCC openCC = new OpenCC();
 
     EventHandler<ActionEvent> changeSourceEncodingHandler = event -> {
         if (event.getSource() == gbkRadioButton) {
@@ -73,7 +78,16 @@ public class ConvertKitController implements Initializable {
                     break;
             }
             changeInputEncoding(encodingComboBox.getValue());
-            prevEncoding = encodingComboBox.getValue();
+        }
+
+    };
+
+    EventHandler<ActionEvent> conversionActionHandler = event -> {
+        for (Map.Entry<String, String> entry : OpenCC.CONVERSIONS.entrySet()) {
+            if (entry.getValue().equals(conversionComboBox.getValue())) {
+                convertInputToOutput(entry.getKey());
+                break;
+            }
         }
 
     };
@@ -122,6 +136,14 @@ public class ConvertKitController implements Initializable {
 
     }
 
+    protected void convertInputToOutput(String conversion) {
+        String input = inputTextArea.getText();
+        openCC.setConversion(conversion);
+        String output = openCC.convert(input);
+        outputTextArea.clear();
+        outputTextArea.setText(output);
+    }
+
     public void chooseFile() {
 
         FileChooser fileChooser = new FileChooser();
@@ -148,11 +170,21 @@ public class ConvertKitController implements Initializable {
                     utf8RadioButton.setSelected(false);
                     break;
             }
-            prevEncoding = encoding;
             encodingComboBox.setValue(encoding);
 
             loadFileWithEncoding(file, encoding);
         }
+    }
+
+
+    protected void buildConversionComboBox() {
+        ObservableList<String> conversionOptions = FXCollections.observableArrayList();
+        conversionComboBox.setItems(conversionOptions);
+
+        OpenCC.CONVERSIONS.values().stream()
+                .sorted()
+                .forEach(conversionOptions::add);
+
     }
 
 
@@ -167,5 +199,7 @@ public class ConvertKitController implements Initializable {
         utf8RadioButton.setOnAction(changeSourceEncodingHandler);
         encodingComboBox.setOnAction(changeSourceEncodingHandler);
 
+        conversionComboBox.setOnAction(conversionActionHandler);
+        buildConversionComboBox();
     }
 }

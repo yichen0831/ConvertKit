@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-
 <VBox minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ychstudio.gui.ConvertKitController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
@@ -80,6 +74,13 @@
                                           <RadioButton fx:id="big5RadioButton" mnemonicParsing="false" text="Big5" toggleGroup="$encodingGroup" />
                                           <RadioButton fx:id="utf8RadioButton" mnemonicParsing="false" text="UTF-8" toggleGroup="$encodingGroup" />
                                           <ComboBox fx:id="encodingComboBox" prefWidth="150.0" />
+                                          <Separator orientation="VERTICAL">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </HBox.margin>
+                                          </Separator>
+                                          <Label text="轉換" />
+                                          <ComboBox fx:id="conversionComboBox" prefWidth="150.0" />
                                        </children>
                                        <padding>
                                           <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
