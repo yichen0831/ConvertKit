@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import opencc.OpenCC;
 import org.mozilla.universalchardet.UniversalDetector;
@@ -40,6 +37,9 @@ public class ConvertKitController implements Initializable {
 
     @FXML
     ComboBox<String> conversionComboBox;
+
+    @FXML
+    Button applyConversionButton;
 
     @FXML
     TextArea inputTextArea;
@@ -83,14 +83,21 @@ public class ConvertKitController implements Initializable {
     };
 
     EventHandler<ActionEvent> conversionActionHandler = event -> {
+        applyConversion();
+    };
+
+    EventHandler<ActionEvent> applyConversionHandler = event -> {
+        applyConversion();
+    };
+
+    protected void applyConversion() {
         for (Map.Entry<String, String> entry : OpenCC.CONVERSIONS.entrySet()) {
             if (entry.getValue().equals(conversionComboBox.getValue())) {
                 convertInputToOutput(entry.getKey());
                 break;
             }
         }
-
-    };
+    }
 
     public void changeInputEncoding(String encoding) {
         if (selectedFile.isPresent()) {
@@ -201,5 +208,7 @@ public class ConvertKitController implements Initializable {
 
         conversionComboBox.setOnAction(conversionActionHandler);
         buildConversionComboBox();
+
+        applyConversionButton.setOnAction(applyConversionHandler);
     }
 }
