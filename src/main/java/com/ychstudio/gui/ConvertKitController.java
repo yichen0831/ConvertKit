@@ -21,6 +21,9 @@ import java.util.ResourceBundle;
 public class ConvertKitController implements Initializable {
 
     @FXML
+    MenuItem quitMenuItem;
+
+    @FXML
     Label selectedFileLabel;
 
     @FXML
@@ -197,6 +200,9 @@ public class ConvertKitController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        quitMenuItem.setOnAction(e -> System.exit(0));
+
         ObservableList<String> encodingChoiceList = FXCollections.observableArrayList();
         encodingChoiceList.addAll(Charset.availableCharsets().keySet());
         encodingComboBox.setItems(encodingChoiceList);

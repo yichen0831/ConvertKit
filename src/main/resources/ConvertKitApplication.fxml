@@ -20,7 +20,7 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" text="Quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
@@ -58,6 +58,8 @@
                                        <children>
                                           <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseFile" text="選擇檔案" />
                                           <Label fx:id="selectedFileLabel" text="未選擇檔案" />
+                                          <Separator orientation="VERTICAL" />
+                                          <Button alignment="CENTER" disable="true" mnemonicParsing="false" text="儲存" />
                                        </children>
                                        <padding>
                                           <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
