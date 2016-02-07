@@ -5,17 +5,31 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+buildscript {
+    ext.kotlin_version = '1.0.0-beta-4589'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+apply plugin: 'kotlin'
 
-mainClassName = 'com.ychstudio.ConvertKit'
+mainClassName = 'com.ychstudio.ConvertKitKt'
 
 repositories {
     mavenCentral()
+
+    flatDir {
+        dirs 'lib'
+    }
 }
 
 dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+    compile name: 'OpenCC-Java-all-0.1'
     testCompile 'junit:junit:4.+'
 }
 
@@ -24,10 +38,14 @@ jar {
     version = '0.1'
 
     manifest {
-        attributes 'Main-Class': 'com.ychstudio.ConvertKit'
+        attributes 'Main-Class': 'com.ychstudio.ConvertKitKt'
     }
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.10'
 }
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+}
+
