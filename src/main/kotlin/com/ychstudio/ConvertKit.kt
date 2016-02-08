@@ -12,7 +12,7 @@ val version: String
 class MainWindow: Application() {
     override fun start(primaryStage: Stage) {
 
-        val fxmlRoot = FXMLLoader.load<Parent>(javaClass.getClassLoader().getResource("ConvertKitApplication.fxml"))
+        val fxmlRoot = FXMLLoader.load<Parent>(javaClass.classLoader.getResource("ConvertKitApplication.fxml"))
 
         val scene = Scene(fxmlRoot)
 

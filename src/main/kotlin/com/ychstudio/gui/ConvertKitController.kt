@@ -45,6 +45,19 @@ class ConvertKitController : Initializable {
     @FXML
     internal var outputTextArea: TextArea? = null
 
+    @FXML
+    internal var targetEncodingComboBox: ComboBox<String>? = null
+
+    @FXML
+    internal var saveAsRadioButton: RadioButton? = null
+
+    @FXML
+    internal var overwriteRadioButton: RadioButton? = null
+
+    @FXML
+    internal var saveFileButton: Button? = null
+
+
     private var selectedFile: File? = null
     private val openCC = OpenCC()
 
@@ -78,6 +91,7 @@ class ConvertKitController : Initializable {
         for (entry in OpenCC.CONVERSIONS.entries) {
             if (entry.value == conversionComboBox?.value) {
                 convertInputToOutput(entry.key)
+                saveFileButton?.isDisable = false
                 break
             }
         }
@@ -86,6 +100,7 @@ class ConvertKitController : Initializable {
     fun changeInputEncoding(encoding: String) {
         if (selectedFile != null) {
             loadFileWithEncoding(selectedFile as File, encoding)
+            applyConversion()
         }
     }
 
@@ -126,7 +141,6 @@ class ConvertKitController : Initializable {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
     }
 
     protected fun convertInputToOutput(conversion: String) {
@@ -159,7 +173,42 @@ class ConvertKitController : Initializable {
             encodingComboBox?.value = encoding
 
             loadFileWithEncoding(selectedFile as File, encoding)
+            saveFileButton?.isDisable = true
+            applyConversion()
         }
+    }
+
+    fun saveFile() {
+
+        when {
+            saveAsRadioButton!!.isSelected -> {
+                val fileChooser = FileChooser()
+                fileChooser.initialFileName = selectedFile!!.name
+                fileChooser.initialDirectory = selectedFile!!.parentFile
+                val chosen: File? = fileChooser.showSaveDialog(null)
+
+                if (chosen != null) {
+                    writeToFile(chosen.absolutePath, outputTextArea!!.text, targetEncodingComboBox!!.value)
+                }
+            }
+
+            overwriteRadioButton!!.isSelected -> {
+                writeToFile(selectedFile!!.absolutePath, outputTextArea!!.text, targetEncodingComboBox!!.value)
+            }
+        }
+    }
+
+    protected fun writeToFile(filename: String, output: String, encoding: String) {
+        if (output.isEmpty()) {
+            return
+        }
+
+        val outputFile = File(filename)
+
+        val bufferedWriter= BufferedWriter(OutputStreamWriter(FileOutputStream(outputFile), encoding))
+        bufferedWriter.write(output)
+        bufferedWriter.flush()
+        bufferedWriter.close()
     }
 
     protected fun buildConversionComboBox() {
@@ -182,6 +231,8 @@ class ConvertKitController : Initializable {
         val encodingChoiceList = FXCollections.observableArrayList<String>()
         encodingChoiceList.addAll(Charset.availableCharsets().keys)
         encodingComboBox?.items = encodingChoiceList
+        targetEncodingComboBox?.items = encodingChoiceList
+        targetEncodingComboBox?.value = "UTF-8"
 
         gbkRadioButton?.setOnAction(changeSourceEncodingHandler)
         big5RadioButton?.setOnAction(changeSourceEncodingHandler)
@@ -192,5 +243,8 @@ class ConvertKitController : Initializable {
         buildConversionComboBox()
 
         applyConversionButton?.setOnAction(applyConversionHandler)
+
+        inputTextArea?.isEditable = false
+//        outputTextArea?.isEditable = false
     }
 }

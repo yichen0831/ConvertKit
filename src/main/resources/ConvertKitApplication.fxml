@@ -59,7 +59,15 @@
                                           <Button fx:id="chooseFileButton" mnemonicParsing="false" onAction="#chooseFile" text="選擇檔案" />
                                           <Label fx:id="selectedFileLabel" text="未選擇檔案" />
                                           <Separator orientation="VERTICAL" />
-                                          <Button alignment="CENTER" disable="true" mnemonicParsing="false" text="儲存" />
+                                          <Label text="目的編碼" />
+                                          <ComboBox fx:id="targetEncodingComboBox" prefWidth="150.0" />
+                                          <RadioButton fx:id="saveAsRadioButton" mnemonicParsing="false" selected="true" text="另存新檔">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="saveAsOrOverwriteGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="overwriteRadioButton" mnemonicParsing="false" text="覆寫原檔" toggleGroup="$saveAsOrOverwriteGroup" />
+                                          <Button fx:id="saveFileButton" alignment="CENTER" disable="true" mnemonicParsing="false" onAction="#saveFile" text="儲存" />
                                        </children>
                                        <padding>
                                           <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
@@ -116,6 +124,11 @@
                         </AnchorPane>
                   </content>
                 </Tab>
+                  <Tab text="批次轉換文字檔">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    </content>
+                  </Tab>
                 <Tab text="轉換檔名">
                   <content>
                     <AnchorPane />
